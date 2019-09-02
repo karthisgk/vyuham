@@ -120,11 +120,28 @@
   });
 
   // Clients carousel (uses the Owl Carousel library)
-  $(".clients-carousel").owlCarousel({
+  /*$(".clients-carousel").owlCarousel({
     autoplay: true,
     dots: true,
     loop: true,
     responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
+    }
+  });*/
+
+  $.getJSON( "http://me.karthisgk.be/vyuham/sponsors.json", function( sponsors ) {
+    console.log(sponsors);
+    if(sponsors.length){
+      sponsors.forEach((sp, ind) => {
+        const ele = $('<img src="'+sp.logo+'" alt="" />');
+        $('.clients-carousel').append(ele);
+      });
+      $(".clients-carousel").owlCarousel({
+        autoplay: true,
+        dots: true,
+        loop: true,
+        responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
+        }
+      });
     }
   });
 
