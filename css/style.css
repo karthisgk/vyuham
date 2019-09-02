@@ -1568,6 +1568,44 @@ h6 {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
+.main-title {
+  text-align: center;
+  color: #413e66;
+}
+
+h2.main-title {
+  color: #002366;
+  font-weight: bold;
+  margin-bottom: 0px !important;
+}
+
+.title-thick {
+  color: #002366;
+}
+
+#intro .justify-content-center {
+  width: 100%;
+}
+
+@media (max-width: 574px) {
+  #intro .justify-content-center {
+    width: unset;
+  }
+
+  .main-title {
+    font-size: 15px;
+  }
+
+  #intro h2.main-title {
+    font-size: 20px;
+    margin-bottom: 10px !important;
+  }
+}
+
 /*#header {
   background-image: linear-gradient(to right, #fff 10px, #002366) !important; 
   height: 70px !important;
