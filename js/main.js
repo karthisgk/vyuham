@@ -127,9 +127,7 @@
     responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
     }
   });*/
-
-  $.getJSON( "http://me.karthisgk.be/vyuham/sponsors.json", function( sponsors ) {
-    console.log(sponsors);
+  const getSponsorsCallback = function( sponsors ) {
     if(sponsors.length){
       sponsors.forEach((sp, ind) => {
         const ele = $('<img src="'+sp.logo+'" alt="" />');
@@ -143,6 +141,12 @@
         }
       });
     }
+  };
+  $.ajax({
+    type: 'post',
+    url: 'http://me.karthisgk.be/vyuham/sponsors.json',
+    dataType: 'json',
+    success: getSponsorsCallback
   });
 
 })(jQuery);
