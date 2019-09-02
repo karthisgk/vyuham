@@ -1604,6 +1604,10 @@ h2.main-title {
     font-size: 20px;
     margin-bottom: 10px !important;
   }
+
+  .xs-hidden {
+    display: none;
+  }
 }
 
 /*#header {
