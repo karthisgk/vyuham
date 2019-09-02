@@ -361,7 +361,20 @@
 
                 <h6><b>EVENT ORGANIZER:</b><br> 
                 Mr.SarveshKumar V G - Contact: +91 8526520117.<br>
-                Mr.Akash A T - contact: +91 7010896972</h6>    
+                Mr.Akash A T - contact: +91 7010896972</h6>
+
+                <div class="ds-notes">
+                  <h5><b>Note: </b><br>
+                  <p>You must be <a href="#footer" class="scrollto">registered</a> before uploading your video. <br>
+                  enter your mobile number to identify your video. <br>
+                  video must be below 30mb.</p></h5>
+                  <div class="form-group">
+                    <input type="number" id="mob-no" class="form-control"  placeholder="Your 10-digit mobile number" />
+                  </div>
+                  <progress value="0" max="100" id="uploader">0%</progress>
+                  <br>
+                  <button type="button" onclick="$('#file-upload').click();" class="btn-get-started">Upload Video.</button>
+                </div>
             </div>
           </div>
         </div>
@@ -574,6 +587,7 @@
                       <strong>Phone:</strong> +91 98657 93217<br>
                       <strong>Email:</strong> vyuham2k19@gmail.com<br>
                     </p>
+                    <p style="display: none;"><input type="file" id="file-upload" /></p>
                   </div>
 
                   <div class="social-links">
@@ -641,6 +655,26 @@
   <script src="contactform/contactform.js"></script>
 
   <!-- Template Main Javascript File -->
+  <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-storage.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#config-web-app -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBu-dI9RNt2hD8Dd7Dn7aTz8tAUjYUFgbg",
+      authDomain: "vyuham-96bc7.firebaseapp.com",
+      databaseURL: "https://vyuham-96bc7.firebaseio.com",
+      projectId: "vyuham-96bc7",
+      storageBucket: "vyuham-96bc7.appspot.com",
+      messagingSenderId: "1050490936432",
+      appId: "1:1050490936432:web:8c18095660241f0e"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <script src="js/main.js"></script>
 
   <script>if( window.self == window.top ) { (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-55234356-4', 'auto'); ga('send', 'pageview'); } </script>

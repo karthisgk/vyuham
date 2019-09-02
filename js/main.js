@@ -148,6 +148,54 @@
     dataType: 'json',
     success: getSponsorsCallback
   });
+  
+  const fileUploader = (e) => {
+    var file = e.target.files[0];
+    var mobNo = $('#mob-no').val().replace(/^\+/, '');
+    var $button = $('div.ds-notes .btn-get-started');
+    var error = $('div.ds-notes .error');
+    var success = $('div.ds-notes .success');
+    var progress = $('#uploader');
+    var message = '';
 
+    if(mobNo.length < 10)
+      message = 'Enter valid mobile number.';
+
+    if(!/^video/.test(file.type)){
+      message = 'not accepted '+file.type+'. \
+        you must upload a video';
+    }
+    if(file.size > 30000000){
+      message = 'file size too large. video must be below 30mb';
+    }
+    if(message != ''){
+      if(error.length == 0)
+        $button.after('<p class="error">'+message+'</p>');
+      else
+        error.html(message);
+      return;
+    }
+    error.html('');    
+    const afterSuccess = () => {
+      message = 'uploaded sucessfull';
+      if(success.length == 0)
+        $button.after('<p class="success">'+message+'</p>');
+      else
+        success.html(message);
+      $button.remove();
+      progress.hide();
+    };
+    progress.show();
+    $button.prop('disabled', true);
+    var task = firebase.storage().ref('/directorshow/vyuham_' + mobNo +'_'+ file.name).put(file);
+    task.on('state_changed', (snapshot) => {
+      var p = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      progress.val(p);
+    }, (error) => {
+      error.html('something wrong!');
+      $button.prop('disabled', false);
+    }, afterSuccess);
+  };
+  $('#file-upload').change(fileUploader);
 })(jQuery);
 

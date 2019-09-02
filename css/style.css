@@ -230,7 +230,8 @@ h6 {
 }
 
 #intro .intro-info .btn-get-started,
-#intro .intro-info .btn-services {
+#intro .intro-info .btn-services,
+ div.ds-notes .btn-get-started {
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -1608,6 +1609,33 @@ h2.main-title {
   .xs-hidden {
     display: none;
   }
+}
+
+div.ds-notes .btn-get-started {
+  border-radius: 5px;
+}
+
+div.ds-notes .error {
+  color: #d40000;
+}
+
+
+div.ds-notes .success {
+  color: #002366;
+}
+
+progress#uploader {
+  display: none;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+div.ds-notes input[type=number]::-webkit-inner-spin-button, 
+div.ds-notes input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 /*#header {
