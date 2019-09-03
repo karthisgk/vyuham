@@ -134,11 +134,19 @@
       });
     }
   };
-  $.ajax({
+  /*$.ajax({
     type: 'post',
     url: 'http://me.karthisgk.be/vyuham/sponsors.json',
     dataType: 'json',
     success: getSponsorsCallback
+  });*/
+
+  firebase.database().ref('sponsors').once('value',function(snapshot) {
+    var sponsors = [];
+    snapshot.forEach(function(childSnapshot) {
+      sponsors.push(childSnapshot.val());
+    });
+    getSponsorsCallback(sponsors);
   });
 
   const getInputs = () => {
