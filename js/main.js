@@ -118,15 +118,7 @@
     loop: true,
     items: 1
   });
-
-  // Clients carousel (uses the Owl Carousel library)
-  /*$(".clients-carousel").owlCarousel({
-    autoplay: true,
-    dots: true,
-    loop: true,
-    responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
-    }
-  });*/
+  
   const getSponsorsCallback = function( sponsors ) {
     if(sponsors.length){
       sponsors.forEach((sp, ind) => {
@@ -148,18 +140,24 @@
     dataType: 'json',
     success: getSponsorsCallback
   });
+
+  const getInputs = () => {
+    return {
+      teamName: $('#team-name').val(),
+      collegeName: $('#college-name').val(),
+      mobNo: $('#mob-no').val().replace(/^\+/, ''),
+      topic: $('#topic').val(),
+      teamSize: $('#team-size').val()
+    };
+  };
   
   const fileUploader = (e) => {
     var file = e.target.files[0];
-    var mobNo = $('#mob-no').val().replace(/^\+/, '');
     var $button = $('div.ds-notes .btn-get-started');
     var error = $('div.ds-notes .error');
     var success = $('div.ds-notes .success');
     var progress = $('#uploader');
     var message = '';
-
-    if(mobNo.length < 10)
-      message = 'Enter valid mobile number.';
 
     if(!/^video/.test(file.type)){
       message = 'not accepted '+file.type+'. \
@@ -176,26 +174,88 @@
       return;
     }
     error.html('');    
-    const afterSuccess = () => {
+    const afterSuccess = (inputs) => {
+      firebase.database().ref('teams/' + inputs.mobNo).set(inputs);
       message = 'uploaded sucessfull';
       if(success.length == 0)
         $button.after('<p class="success">'+message+'</p>');
       else
         success.html(message);
       $button.remove();
+      $('.form-inputs').remove();
       progress.hide();
     };
     progress.show();
     $button.prop('disabled', true);
-    var task = firebase.storage().ref('/directorshow/vyuham_' + mobNo +'_'+ file.name).put(file);
+    var inputs = getInputs();
+    inputs.fileName = 'vyuham_' + inputs.mobNo +'_'+ file.name;
+    var task = firebase.storage().ref('/directorshow/' + inputs.fileName).put(file);
     task.on('state_changed', (snapshot) => {
       var p = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       progress.val(p);
     }, (error) => {
       error.html('something wrong!');
       $button.prop('disabled', false);
-    }, afterSuccess);
+    }, () => afterSuccess(inputs));
   };
-  $('#file-upload').change(fileUploader);
+  $('#file-upload').change(fileUploader);  
+  $('div.ds-notes .btn-get-started').click((e) => {
+    var inputs = getInputs();
+    var $button = $('div.ds-notes .btn-get-started');
+    var error = $('div.ds-notes .error');
+    var message = '';
+
+    if(inputs.mobNo.length == 0 ||
+      inputs.teamName.length == 0 ||
+      inputs.collegeName.length == 0 ||
+      inputs.topic.length == 0 ||
+      inputs.teamSize.length == 0){
+      message = 'fill the inputs';
+    }
+
+    else if(inputs.mobNo.length < 10)
+      message = 'Enter valid mobile number.';
+
+    if(message != ''){
+      if(error.length == 0)
+        $button.after('<p class="error">'+message+'</p>');
+      else
+        error.html(message);
+      return;
+    }
+    error.html('');    
+    $('#file-upload').click();
+  });
+  // firebase.database().ref('videos/zsFYtBwtHCE').set({
+  //   name: 'Bigil',
+  //   image: 'https://img.youtube.com/vi/zsFYtBwtHCE/hqdefault.jpg',
+  //   url: 'https://www.youtube.com/watch?v=zsFYtBwtHCE'
+  // });
+  firebase.database().ref('videos').once('value',function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      const video = childSnapshot.val();
+      const element = '\
+          <div class="col-lg-3 col-md-6 wow fadeInUp">\
+            <div class="member">\
+              <img src="'+video.image+'" class="img-fluid" alt="">\
+              <div class="member-info">\
+                <a href="'+video.url+'" class="play-video">\
+                  <h4>'+video.name+'</h4>\
+                </a>\
+              </div>\
+            </div>\
+          </div>';
+      $('#mvideos').append(element);
+    });
+    //magnify popup
+    $('.play-video').magnificPopup({
+      disableOn: 700,
+      type: 'iframe',
+      mainClass: 'mfp-fade',
+      removalDelay: 160,
+      preloader: false,
+      fixedContentPos: false
+    });
+  });
 })(jQuery);
 
