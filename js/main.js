@@ -99,7 +99,7 @@
   });
 
   // Porfolio isotope and filter
-  $(window).on('load', function () {
+  const isoTope = function () {
     var portfolioIsotope = $('.portfolio-container').isotope({
       itemSelector: '.portfolio-item'
     });
@@ -109,7 +109,8 @@
   
       portfolioIsotope.isotope({ filter: $(this).data('filter') });
     });
-  });
+  };
+  //$(window).on('load', isoTope);
 
   // Testimonials carousel (uses the Owl Carousel library)
   $(".testimonials-carousel").owlCarousel({
@@ -171,8 +172,8 @@
       message = 'not accepted '+file.type+'. \
         you must upload a video';
     }
-    if(file.size > 30000000){
-      message = 'file size too large. video must be below 30mb';
+    if(file.size > 50000000){
+      message = 'file size too large. video must be below 50mb';
     }
     if(message != ''){
       if(error.length == 0)
@@ -265,5 +266,40 @@
       fixedContentPos: false
     });
   });
+
+  firebase.storage().ref().child('gallery').listAll().then((res) => {
+    var imageCount = 0;
+    res.items.forEach(function(itemRef) {
+      var imageRef = firebase.storage().ref().child(itemRef.location.path);
+      imageRef.getDownloadURL().then((url) => {
+        imageCount++;
+        const element = '\
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">\
+            <div class="portfolio-wrap">\
+              <img src="' + url +'" class="img-fluid" alt="">\
+              <div class="portfolio-info">\
+                <div>\
+                  <a href="' + url +'" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>\
+                  <a href="' + url +'" target="_blank" class="link-details" title="open new"><i class="ion ion-android-open"></i></a>\
+                </div>\
+              </div>\
+            </div>\
+          </div>';
+        $('#mgallery').append(element);        
+        if(imageCount == res.items.length){
+          isoTope();
+          window.macy = Macy({container: '#mgallery',trueOrder: false,waitForImages: false,
+            margin: 0,columns: 3,breakAt: {
+                1200: 4,
+                991: 4,
+                940: 3,
+                520: 1,
+                400: 1
+            }
+          });
+        }
+      });
+    });
+  }).catch((err) => {console.log(err)});
 })(jQuery);
 

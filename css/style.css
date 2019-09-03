@@ -1638,6 +1638,10 @@ div.ds-notes input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+#services .icon > img {
+  width: 60px;
+}
+
 /*#header {
   background-image: linear-gradient(to right, #fff 10px, #002366) !important; 
   height: 70px !important;
