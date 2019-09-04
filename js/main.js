@@ -107,7 +107,10 @@
       $("#portfolio-flters li").removeClass('filter-active');
       $(this).addClass('filter-active');
   
-      portfolioIsotope.isotope({ filter: $(this).data('filter') });
+      //portfolioIsotope.isotope({ filter: $(this).data('filter') });
+      $('.portfolio-item:not('+$(this).data('filter')+')').css('display', 'none');
+      if(window.macy)
+        window.macy.recalculate(true, true);
     });
   };
   //$(window).on('load', isoTope);
