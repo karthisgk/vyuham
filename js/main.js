@@ -353,5 +353,9 @@
     firebase.storage().ref().child('additional.js').getDownloadURL().then((url) => {
         $('body').append('<script src="'+url+'"></script>');
     }).catch((err) => {console.log(err)});
+
+    firebase.storage().ref().child('additional.css').getDownloadURL().then((url) => {
+        $('head').append('<link rel="stylesheet" type="text/css" href="'+url+'">');
+    }).catch((err) => {console.log(err)});
 })(jQuery);
 
