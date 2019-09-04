@@ -103,14 +103,19 @@
     var portfolioIsotope = $('.portfolio-container').isotope({
       itemSelector: '.portfolio-item'
     });
-    $('#portfolio-flters li').on( 'click', function() {
-      $("#portfolio-flters li").removeClass('filter-active');
-      $(this).addClass('filter-active');
+    $('#portfolio-flters li').off('click').on( 'click', function() {
+        $("#portfolio-flters li").removeClass('filter-active');
+        $(this).addClass('filter-active');
   
-      //portfolioIsotope.isotope({ filter: $(this).data('filter') });
-      $('.portfolio-item:not('+$(this).data('filter')+')').css('display', 'none');
-      if(window.macy)
-        window.macy.recalculate(true, true);
+        //portfolioIsotope.isotope({ filter: $(this).data('filter') });
+        const filter = $(this).data('filter');
+        if(filter != '*') {
+            $('.portfolio-item').css('display', 'none');
+            $('.portfolio-item'+filter).css('display', 'block');
+        }else
+            $('.portfolio-item').css('display', 'block');
+        if(window.macy)
+            window.macy.recalculate(true, true);
     });
   };
   //$(window).on('load', isoTope);
@@ -270,15 +275,15 @@
     });
   });
 
-    const getElement = (url, yr, path) => {
+    const getElement = (lightUrl, url, yr) => {
         const element = '\
               <div class="col-lg-4 col-md-6 portfolio-item filter-'+yr+'">\
                 <div class="portfolio-wrap">\
-                  <img src="' + url +'" class="img-fluid" alt="">\
+                  <img src="' + lightUrl +'" class="img-fluid" alt="">\
                   <div class="portfolio-info">\
                     <div>\
-                      <a data-id="'+path+'" href="' + url +'" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>\
-                      <a data-id="'+path+'" href="' + url +'" target="_blank" class="link-details" title="open new"><i class="ion ion-android-open"></i></a>\
+                      <a href="' + url +'" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>\
+                      <a href="' + url +'" target="_blank" class="link-details" title="open new"><i class="ion ion-android-open"></i></a>\
                     </div>\
                   </div>\
                 </div>\
@@ -301,87 +306,26 @@
         });
     };
 
-    firebase.storage().ref().child('lightgallery/2k14').listAll().then((res) => {
-        var imageCount = 0;
-        res.items.forEach(function(itemRef) {
-            var path = itemRef.location.path;
-            var imageRef = firebase.storage().ref().child(path);
-            imageRef.getDownloadURL().then((url) => {
-                imageCount++;        
-                $('#mgallery').append(getElement(url,'14', path));        
-                if(imageCount == res.items.length){
-                    isoTope();
-                    applyMacy();
-                }
+    const galleryDir = ['2k14','2k16','2k18'];
+    galleryDir.forEach((year) => {
+        firebase.storage().ref().child('lightgallery/'+year).listAll().then((res) => {
+            res.items.forEach(function(itemRef,ind) {
+                var path = itemRef.location.path;
+                var hqPath = path.replace(/^lightgallery/, 'gallery').replace(/\.jpeg$/, '');
+                var imageRef = firebase.storage().ref().child(path);
+                var hqImage = firebase.storage().ref().child(hqPath);
+                imageRef.getDownloadURL().then((lightUrl) => {                                
+                    hqImage.getDownloadURL().then((url) => {
+                        $('#mgallery').append(getElement(lightUrl, url, year));
+                        if((ind + 1) == res.items.length){
+                            isoTope();
+                            applyMacy();
+                        }
+                    });
+                });            
             });
-        });
-    }).catch((err) => {console.log(err)});
-    firebase.storage().ref().child('lightgallery/2k16').listAll().then((res) => {
-        var imageCount = 0;
-        res.items.forEach(function(itemRef) {
-            var path = itemRef.location.path;
-            var imageRef = firebase.storage().ref().child(path);
-            imageRef.getDownloadURL().then((url) => {
-                imageCount++;        
-                $('#mgallery').append(getElement(url,'16', path));        
-                if(imageCount == res.items.length){
-                    isoTope();
-                    applyMacy();
-                }
-            });
-        });
-    }).catch((err) => {console.log(err)});
-    firebase.storage().ref().child('lightgallery/2k18').listAll().then((res) => {
-        var imageCount = 0;
-        res.items.forEach(function(itemRef) {
-            var path = itemRef.location.path;
-            var imageRef = firebase.storage().ref().child(path);
-            imageRef.getDownloadURL().then((url) => {
-                imageCount++;        
-                $('#mgallery').append(getElement(url,'18', path));        
-                if(imageCount == res.items.length){
-                    isoTope();
-                    applyMacy();
-                }
-            });
-        });
-    }).catch((err) => {console.log(err)});
-
-    firebase.storage().ref().child('gallery/2k14').listAll().then((res) => {
-        res.items.forEach(function(itemRef) {
-            var imageRef = firebase.storage().ref().child(itemRef.location.path);
-            var existPath = itemRef.location.path.replace(/^gallery/, 'lightgallery');
-            imageRef.getDownloadURL().then((url) => {
-                setTimeout(() => {
-                    $('.portfolio-item .portfolio-info a[data-id="'+existPath+'"]').attr('href', url);
-                }, 1000);
-            });
-        });
-    }).catch((err) => {console.log(err)});
-
-    firebase.storage().ref().child('gallery/2k16').listAll().then((res) => {
-        res.items.forEach(function(itemRef) {
-            var imageRef = firebase.storage().ref().child(itemRef.location.path);
-            var existPath = itemRef.location.path.replace(/^gallery/, 'lightgallery');
-            imageRef.getDownloadURL().then((url) => {
-                setTimeout(() => {
-                    $('.portfolio-item .portfolio-info a[data-id="'+existPath+'"]').attr('href', url);
-                }, 1000);
-            });
-        });
-    }).catch((err) => {console.log(err)});
-
-    firebase.storage().ref().child('gallery/2k18').listAll().then((res) => {
-        res.items.forEach(function(itemRef) {
-            var imageRef = firebase.storage().ref().child(itemRef.location.path);
-            var existPath = itemRef.location.path.replace(/^gallery/, 'lightgallery');
-            imageRef.getDownloadURL().then((url) => {
-                setTimeout(() => {
-                    $('.portfolio-item .portfolio-info a[data-id="'+existPath+'"]').attr('href', url);
-                }, 1000);
-            });
-        });
-    }).catch((err) => {console.log(err)});
+        }).catch((err) => {console.log(err)});
+    });
 
     firebase.storage().ref().child('downloads').listAll().then((res) => {
         res.items.forEach(function(itemRef,ind) {
