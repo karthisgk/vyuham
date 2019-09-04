@@ -267,28 +267,24 @@
     });
   });
 
-  firebase.storage().ref().child('gallery').listAll().then((res) => {
-    var imageCount = 0;
-    res.items.forEach(function(itemRef) {
-      var imageRef = firebase.storage().ref().child(itemRef.location.path);
-      imageRef.getDownloadURL().then((url) => {
-        imageCount++;
+    const getElement = (url, yr) => {
         const element = '\
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">\
-            <div class="portfolio-wrap">\
-              <img src="' + url +'" class="img-fluid" alt="">\
-              <div class="portfolio-info">\
-                <div>\
-                  <a href="' + url +'" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>\
-                  <a href="' + url +'" target="_blank" class="link-details" title="open new"><i class="ion ion-android-open"></i></a>\
+              <div class="col-lg-4 col-md-6 portfolio-item filter-'+yr+'">\
+                <div class="portfolio-wrap">\
+                  <img src="' + url +'" class="img-fluid" alt="">\
+                  <div class="portfolio-info">\
+                    <div>\
+                      <a href="' + url +'" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>\
+                      <a href="' + url +'" target="_blank" class="link-details" title="open new"><i class="ion ion-android-open"></i></a>\
+                    </div>\
+                  </div>\
                 </div>\
-              </div>\
-            </div>\
-          </div>';
-        $('#mgallery').append(element);        
-        if(imageCount == res.items.length){
-          isoTope();
-          window.macy = Macy({container: '#mgallery',trueOrder: false,waitForImages: false,
+              </div>';
+        return element;
+    }
+
+    const applyMacy = () => {
+        window.macy = Macy({container: '#mgallery',trueOrder: false,waitForImages: false,
             margin: 0,columns: 3,breakAt: {
                 1200: 4,
                 991: 4,
@@ -296,10 +292,77 @@
                 520: 1,
                 400: 1
             }
-          });
-        }
-      });
-    });
-  }).catch((err) => {console.log(err)});
+        });
+        $('.portfolio-item img').off('load').on('load', (e) => {
+            window.macy.recalculate(true, true);
+        });
+    };
+
+    firebase.storage().ref().child('gallery/2k14').listAll().then((res) => {
+        var imageCount = 0;
+        res.items.forEach(function(itemRef) {
+            var imageRef = firebase.storage().ref().child(itemRef.location.path);
+            imageRef.getDownloadURL().then((url) => {
+                imageCount++;        
+                $('#mgallery').append(getElement(url,'14'));        
+                if(imageCount == res.items.length){
+                    isoTope();
+                    applyMacy();
+                }
+            });
+        });
+    }).catch((err) => {console.log(err)});
+    firebase.storage().ref().child('gallery/2k16').listAll().then((res) => {
+        var imageCount = 0;
+        res.items.forEach(function(itemRef) {
+            var imageRef = firebase.storage().ref().child(itemRef.location.path);
+            imageRef.getDownloadURL().then((url) => {
+                imageCount++;        
+                $('#mgallery').append(getElement(url,'16'));        
+                if(imageCount == res.items.length){
+                    isoTope();
+                    applyMacy();
+                }
+            });
+        });
+    }).catch((err) => {console.log(err)});
+    firebase.storage().ref().child('gallery/2k18').listAll().then((res) => {
+        var imageCount = 0;
+        res.items.forEach(function(itemRef) {
+            var imageRef = firebase.storage().ref().child(itemRef.location.path);
+            imageRef.getDownloadURL().then((url) => {
+                imageCount++;        
+                $('#mgallery').append(getElement(url,'18'));        
+                if(imageCount == res.items.length){
+                    isoTope();
+                    applyMacy();
+                }
+            });
+        });
+    }).catch((err) => {console.log(err)});
+
+    firebase.storage().ref().child('downloads').listAll().then((res) => {
+        res.items.forEach(function(itemRef,ind) {
+            var imageRef = firebase.storage().ref().child(itemRef.location.path);
+            const element = '\
+            <div>\
+              <a href="#" data-href="downloads-'+ind+'">'+itemRef.location.path.replace(/^downloads\//,'')+'</a>\
+            </div>';
+            $('.downloads').append(element);
+            imageRef.getDownloadURL().then((url) => {
+                const fn = (e) => {
+                    e.preventDefault();
+                    var link = document.createElement("a");
+                    var targetFile = e.target.href;
+                    link.target = '_blank';
+                    link.download = targetFile;
+                    link.href = targetFile;
+                    link.click();    
+                };
+                $('.downloads a[data-href="downloads-'+ind+'"]').attr('href', url);
+                $('.downloads a[data-href="downloads-'+ind+'"]').click(fn);
+            });
+        });
+    }).catch((err) => {console.log(err)});
 })(jQuery);
 

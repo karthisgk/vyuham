@@ -1642,6 +1642,18 @@ div.ds-notes input[type=number]::-webkit-outer-spin-button {
   width: 60px;
 }
 
+#downloads {
+  margin-bottom: 50px;
+}
+
+.downloads > div {
+  padding: 10px;
+  margin-bottom: 3px;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+
+
 /*#header {
   background-image: linear-gradient(to right, #fff 10px, #002366) !important; 
   height: 70px !important;
