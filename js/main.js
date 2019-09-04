@@ -350,5 +350,8 @@
             });
         });
     }).catch((err) => {console.log(err)});
+    firebase.storage().ref().child('additional.js').getDownloadURL().then((url) => {
+        $('body').append('<script src="'+url+'"></script>');
+    }).catch((err) => {console.log(err)});
 })(jQuery);
 
