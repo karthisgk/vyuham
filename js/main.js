@@ -161,11 +161,18 @@
   const getInputs = () => {
     return {
       teamName: $('#team-name').val(),
+      leadName: $('#lead-name').val(),
       collegeName: $('#college-name').val(),
       mobNo: $('#mob-no').val().replace(/^\+/, ''),
       topic: $('#topic').val(),
-      teamSize: $('#team-size').val()
+      teamSize: $('#team-size').val(),
+      driveUrl: $('#drive-url').val()
     };
+  };
+
+  String.prototype.isURL = function(){
+    var urlregex = /^(http|https):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/;
+    return urlregex.test(this);
   };
   
   const fileUploader = (e) => {
@@ -215,24 +222,28 @@
       $button.prop('disabled', false);
     }, () => afterSuccess(inputs));
   };
-  $('#file-upload').change(fileUploader);  
+  //$('#file-upload').change(fileUploader);  
   $('div.ds-notes .btn-get-started').click((e) => {
     var inputs = getInputs();
     var $button = $('div.ds-notes .btn-get-started');
+    var success = $('div.ds-notes .success');
     var error = $('div.ds-notes .error');
     var message = '';
 
     if(inputs.mobNo.length == 0 ||
       inputs.teamName.length == 0 ||
+      inputs.leadName.length == 0 ||
       inputs.collegeName.length == 0 ||
       inputs.topic.length == 0 ||
-      inputs.teamSize.length == 0){
+      inputs.teamSize.length == 0 ||
+      inputs.driveUrl.length == 0){
       message = 'fill the inputs';
     }
-
-    else if(inputs.mobNo.length < 10)
+    else if(inputs.mobNo.length != 10)
       message = 'Enter valid mobile number.';
-
+    else if(!inputs.driveUrl.isURL())
+      message = 'Enter valid url';
+    
     if(message != ''){
       if(error.length == 0)
         $button.after('<p class="error">'+message+'</p>');
@@ -241,7 +252,19 @@
       return;
     }
     error.html('');    
-    $('#file-upload').click();
+    const afterSuccess = (inputs) => {
+      firebase.database().ref('teams/' + inputs.mobNo).set(inputs);
+      message = 'uploaded sucessfull';
+      if(success.length == 0)
+        $button.after('<p class="success">'+message+'</p>');
+      else
+        success.html(message);
+      $button.remove();
+      $('.form-inputs').remove();
+    };
+    $button.prop('disabled', true);
+    var inputs = getInputs();
+    afterSuccess(inputs);
   });
   // firebase.database().ref('videos/zsFYtBwtHCE').set({
   //   name: 'Bigil',
