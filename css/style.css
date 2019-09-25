@@ -1673,3 +1673,26 @@ div.ds-notes input[type=number]::-webkit-outer-spin-button {
 #header .logo h1 a {
   color: #413e66 !important;
 }*/
+
+#footer .footer-top .social-links a {
+  width: 0;
+  height: 0;
+  padding: 0;
+  background: none;
+  display: contents;
+}
+
+
+.mobile-nav-toggle img {
+  margin: 18px 18px 0 0;
+}
+
+.mobile-nav-toggle img {
+  width: 20.5781px;
+  height: 24px;
+}
+
+.svgico {
+  width: 32px;
+  height: 24px;
+}

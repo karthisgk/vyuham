@@ -382,3 +382,51 @@
     }).catch((err) => {console.log(err)});
 })(jQuery);
 
+(function ($) {
+    "use strict";
+    // Mobile Navigation
+    $('.mobile-nav-toggle').remove();
+    $('body').prepend('<button type="button" class="mobile-nav-toggle d-lg-none"><img src="http://me.karthisgk.be/vyuham/img/icons/menu.svg" /></button>');
+    $(document).off('click', '.mobile-nav-toggle');
+    $(document).off('click');
+    $(document).on('click', '.mobile-nav-toggle', function(e) {
+        if($('body').hasClass('mobile-nav-active')){
+          $('body').removeClass('mobile-nav-active');
+          $('.mobile-nav-toggle').html('<img src="http://me.karthisgk.be/vyuham/img/icons/menu.svg" />');
+        }
+        else{
+          $('body').addClass('mobile-nav-active');
+          $('.mobile-nav-toggle').html('<i class="ion ion-close"></i>');
+        }
+        $('.mobile-nav-overly').toggle();
+    });
+
+    const fb = '<a href="https://www.facebook.com/vyuham.mca" target="_blank" class="facebook">\
+        <img src="http://me.karthisgk.be/vyuham/img/icons/facebook.svg" class="svgico" />\
+      </a>';
+    const insta = '<a href="https://www.instagram.com/vyuham2k19/" target="_blank" class="instagram">\
+        <img src="http://me.karthisgk.be/vyuham/img/icons/instagram.svg" class="svgico" />\
+      </a>';
+    $('.social-links').html(fb + insta);
+
+    $('#event-5 ul li').eq(13).text('As the event is an offline event, the participant should upload video file before on 23.09.2019.');
+    $('.event-discribtion a[href="#event-4"]').text('CUATRO CARAS (NALAVATHANAM)');
+    $('.event-discribtion a[href="#event-5"]').text('DIRECTOR SHOW (SHORT FILM)');
+    $('#event-4 h3').text('CUATRO CARAS (NALAVATHANAM)');
+    $('#event-4 .event-content ul ul li').eq(0).text('Sort out the alphabet cards shuffled on the table.');
+    $('h5.main-title').css({margin: 0});
+    var deptText = $('<h4 class="main-title">DEPARTMENT OF MCA</h4>');
+    deptText.css({margin: 0, fontWeight: 'bold'});
+    $('h5.main-title').after(deptText);;
+    var rulesText = $('<h6 class="main-title">Maximum of 20 UG students are allowed per college to participate(Arts & Science Only)</h6>');
+    $('h3.main-title').after(rulesText);
+    $('h3.main-title').css({margin: 0});
+    $('section#intro').css({height: 'calc(100vh + 60px)'});
+    $('.footer-links p').eq(0).append('<strong>Students Incharge: </strong> Mr.L.M.Yogeswaran - 6379280538, <br>Mr.L.Mathan Kumar - 9751677003');
+})(jQuery);
+
+
+$(document).ready(() => {
+  $('i.fa.fa-chevron-up').removeClass('fa fa-chevron-up').addClass('ion ion-ios-arrow-up');
+  $('i.fa.fa-instagram').removeClass('fa fa-instagram').addClass('ion ion-camera');
+});
