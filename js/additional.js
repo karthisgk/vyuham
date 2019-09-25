@@ -1,7 +1,7 @@
 (function ($) {
 	const downloads = ['brouchure-01.jpg'];
     downloads.forEach(function(itemRef,ind) {
-        const url = window.baseURL + "downloads/" + itemRef;
+        const url = window.baseURL + "img/downloads/" + itemRef;
         const element = '\
         <div>\
           <a data-href="downloads-'+ind+'" href="'+url+'">'+itemRef+'</a>\
