@@ -1,5 +1,5 @@
 (function ($) {
-	const downloads = ['brouchure-01.jpg'];
+	const downloads = ['brouchure.jpg'];
     downloads.forEach(function(itemRef,ind) {
         const url = window.baseURL + "img/downloads/" + itemRef;
         const element = '\
