@@ -329,8 +329,14 @@
         });
     };
 
+    window.baseURL = location.protocol + "//" + location.host + "/";
     const galleryDir = ['2k14','2k16','2k18'];
-    galleryDir.forEach((year) => {
+    const images = {
+      "2k14": "IMG_2377.JPG.jpeg,@,IMG_2362.JPG.jpeg,@,IMG_1853.JPG.jpeg,@,IMG_1845.JPG.jpeg,@,IMG_1839.JPG.jpeg,@,IMG_1823.JPG.jpeg,@,IMG_1663.JPG.jpeg,@,IMG_2347.JPG.jpeg,@,IMG_2325.JPG.jpeg,@,IMG_2228.JPG.jpeg,@,IMG_2174.JPG.jpeg,@,IMG_2170.JPG.jpeg,@,IMG_2103.JPG.jpeg,@,IMG_2071.JPG.jpeg,@,IMG_1905.JPG.jpeg".split(',@,'),
+      "2k16": "DSC_9999.JPG.jpeg,@,DSC_9995.JPG.jpeg,@,DSC_0009.JPG.jpeg,@,DSC_0008.JPG.jpeg,@,DSC_9984.JPG.jpeg,@,DSC_9965.JPG.jpeg,@,DSC_9956.JPG.jpeg,@,DSC_9954.JPG.jpeg,@,DSC_9949.JPG.jpeg,@,DSC_9941.JPG.jpeg,@,DSC_9936.JPG.jpeg,@,DSC_0014.JPG.jpeg".split(',@,'),
+      "2k18": "DSC_0698.JPG.jpeg,@,DSC_0692.JPG.jpeg,@,DSC_0342.JPG.jpeg,@,DSC_0310.JPG.jpeg,@,DSC_0267.JPG.jpeg,@,DSC_0685.JPG.jpeg,@,DSC_0582.JPG.jpeg,@,DSC_0572.JPG.jpeg,@,DSC_0558.JPG.jpeg,@,DSC_0408.JPG.jpeg,@,DSC_0403.JPG.jpeg,@,DSC_0380.JPG.jpeg,@,DSC_0345.JPG.jpeg".split(',@,')
+    };
+    /*galleryDir.forEach((year) => {
         firebase.storage().ref().child('lightgallery/'+year).listAll().then((res) => {
             res.items.forEach(function(itemRef,ind) {
                 var path = itemRef.location.path;
@@ -348,9 +354,19 @@
                 });            
             });
         }).catch((err) => {console.log(err)});
-    });
+    });*/
 
-    firebase.storage().ref().child('downloads').listAll().then((res) => {
+    Object.keys(images).forEach((year) => {
+      images[year].forEach(function(itemRef,ind) {
+          const url = window.baseURL + "vyuham/img/gallery/" + year + "/" + itemRef; 
+          $('#mgallery').append(getElement(url, url, year));
+          if((ind + 1) == images[year].length){
+              isoTope();
+              applyMacy();
+          }            
+      });
+    });
+    /*firebase.storage().ref().child('downloads').listAll().then((res) => {
         res.items.forEach(function(itemRef,ind) {
             var imageRef = firebase.storage().ref().child(itemRef.location.path);
             const element = '\
@@ -379,7 +395,7 @@
 
     firebase.storage().ref().child('additional.css').getDownloadURL().then((url) => {
         $('head').append('<link rel="stylesheet" type="text/css" href="'+url+'">');
-    }).catch((err) => {console.log(err)});
+    }).catch((err) => {console.log(err)});*/
 })(jQuery);
 
 (function ($) {
