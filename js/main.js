@@ -143,21 +143,20 @@
       });
     }
   };
-  $.ajax({
+  /*$.ajax({
     type: 'post',
     url: 'http://me.karthisgk.be/vyuham/sponsors.json',
     dataType: 'json',
     success: getSponsorsCallback
-  });
+  });*/
 
-  /*firebase.database().ref('sponsors').once('value',function(snapshot) {
+  firebase.database().ref('sponsors').once('value',function(snapshot) {
     var sponsors = [];
     snapshot.forEach(function(childSnapshot) {
       sponsors.push(childSnapshot.val());
     });
-    console.log(JSON.stringify(sponsors));
     getSponsorsCallback(sponsors);
-  });*/
+  });
 
   const getInputs = () => {
     return {
@@ -330,7 +329,7 @@
         });
     };
 
-    window.baseURL = location.protocol + "//" + location.host + "/";
+    window.baseURL = location.protocol + "//" + location.host + location.pathname;
     const galleryDir = ['2k14','2k16','2k18'];
     const images = {
       "2k14": "IMG_2377.JPG.jpeg,@,IMG_2362.JPG.jpeg,@,IMG_1853.JPG.jpeg,@,IMG_1845.JPG.jpeg,@,IMG_1839.JPG.jpeg,@,IMG_1823.JPG.jpeg,@,IMG_1663.JPG.jpeg,@,IMG_2347.JPG.jpeg,@,IMG_2325.JPG.jpeg,@,IMG_2228.JPG.jpeg,@,IMG_2174.JPG.jpeg,@,IMG_2170.JPG.jpeg,@,IMG_2103.JPG.jpeg,@,IMG_2071.JPG.jpeg,@,IMG_1905.JPG.jpeg".split(',@,'),
@@ -359,7 +358,7 @@
 
     Object.keys(images).forEach((year) => {
       images[year].forEach(function(itemRef,ind) {
-          const url = window.baseURL + "vyuham/img/gallery/" + year + "/" + itemRef; 
+          const url = window.baseURL + "img/gallery/" + year + "/" + itemRef; 
           $('#mgallery').append(getElement(url, url, year));
           if((ind + 1) == images[year].length){
               isoTope();
