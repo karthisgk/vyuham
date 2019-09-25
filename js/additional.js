@@ -1,4 +1,19 @@
 (function ($) {
+	const getElement = (lightUrl, url, yr) => {
+        const element = '\
+              <div class="col-lg-4 col-md-6 portfolio-item filter-'+yr+'">\
+                <div class="portfolio-wrap">\
+                  <img src="' + lightUrl +'" class="img-fluid" alt="">\
+                  <div class="portfolio-info">\
+                    <div>\
+                      <a href="' + url +'" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>\
+                      <a href="' + url +'" target="_blank" class="link-details" title="open new"><i class="ion ion-android-open"></i></a>\
+                    </div>\
+                  </div>\
+                </div>\
+              </div>';
+        return element;
+    }
 	window.baseURL = location.protocol + "//" + location.host + location.pathname;
     const images = {
       "2k14": "IMG_2377.JPG.jpeg,@,IMG_2362.JPG.jpeg,@,IMG_1853.JPG.jpeg,@,IMG_1845.JPG.jpeg,@,IMG_1839.JPG.jpeg,@,IMG_1823.JPG.jpeg,@,IMG_1663.JPG.jpeg,@,IMG_2347.JPG.jpeg,@,IMG_2325.JPG.jpeg,@,IMG_2228.JPG.jpeg,@,IMG_2174.JPG.jpeg,@,IMG_2170.JPG.jpeg,@,IMG_2103.JPG.jpeg,@,IMG_2071.JPG.jpeg,@,IMG_1905.JPG.jpeg".split(',@,'),
