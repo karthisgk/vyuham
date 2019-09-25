@@ -1,12 +1,34 @@
 [
 	{
-		"id":1,
-		"name":"myob",
-		"logo":"http://me.karthisgk.be/vyuham/img/clients/client-1.png"
+		"id":"8",
+		"logo":"http://me.karthisgk.be/vyuham/img/clients/client313.png",
+		"name":"theni anandha"
 	},
 	{
-		"id":2,
-		"name":"belimo",
-		"logo":"http://me.karthisgk.be/vyuham/img/clients/client-2.png"
+		"id":"5","logo":"http://me.karthisgk.be/vyuham/img/clients/client223.jpeg","name":"BJ's Biker"
+	},
+	{
+		"id":"4","logo":"http://me.karthisgk.be/vyuham/img/clients/client123.jpeg","name":"Satha Driving School 2"
+	},
+	{
+		"id":"11","logo":"http://me.karthisgk.be/vyuham/img/clients/client316.jpg","name":"sfi"
+	},
+	{
+		"id":"9","logo":"http://me.karthisgk.be/vyuham/img/clients/client314.jpg","name":"grasim"
+	},
+	{
+		"id":"7","logo":"http://me.karthisgk.be/vyuham/img/clients/client312.png","name":"madurai pipes"
+	},
+	{
+		"id":"6","logo":"http://me.karthisgk.be/vyuham/img/clients/client311.jpeg","name":"indhra"
+	},
+	{
+		"id":"10","logo":"http://me.karthisgk.be/vyuham/img/clients/client315.png","name":"grasim"
+	},
+	{
+		"id":"3","logo":"http://me.karthisgk.be/vyuham/img/clients/client122.jpeg","name":"Satha Driving School"
+	},
+	{
+		"id":"2","logo":"http://me.karthisgk.be/vyuham/img/clients/fj_logo.png","name":"FAMOUS JIGARTHANDA"
 	}
 ]
